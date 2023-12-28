@@ -12,6 +12,7 @@ placeholders.dev generates custom placeholder images on the fly, such as the exa
 ## Technology
 
 This project makes use of Cloudflare Workers, and Cloudflare Workers Sites via Workers KV. It also implements a HTMLRewriter to update the total Cloudflare PoPs in multiple locations.
+
 ### Available API Options
 
 - `width`
@@ -32,6 +33,8 @@ This project makes use of Cloudflare Workers, and Cloudflare Workers Sites via W
 	- Background color of the image. Defaults to `#ddd`
 - `textColor`
 	- Color of the text. For transparency, use an rgba or hsla value. Defaults to `rgba(0,0,0,0.5)`
+- `textWrap`
+	- Wrap text to fit within the image (to best ability). Will not alter font size, so especially long strings may still appear outside of the image. Defaults to `false`.
 
 Example URL: `https://images.placeholders.dev/?width=1055&height=100&text=Made%20with%20placeholders.dev&bgColor=%23f7f6f6&textColor=%236d6e71`
 ## Dev
@@ -39,20 +42,11 @@ Example URL: `https://images.placeholders.dev/?width=1055&height=100&text=Made%2
 ### Prerequisites
 
 #### Wrangler
-`wrangler` is a CLI tool from Cloudflare, designed to push projects to Cloudflare Workers. See [Cloudflare's documentation](https://developers.cloudflare.com/workers/tooling/wrangler/) for more information.
-
-Install it with npm:
-- `npm i @cloudflare/wrangler -g`
-
-After install run `wrangler config` and follow the prompts to add your Wrangler API token. Follow the instructions in [Cloudflare's](https://developers.cloudflare.com/workers/quickstart/#api-token) docs for information on this.
-
-
-### Build
-- `wrangler build`
+`wrangler` is a CLI tool from Cloudflare, designed to push projects to Cloudflare Workers. See [Cloudflare's documentation](https://developers.cloudflare.com/workers/wrangler/install-and-update/) for more information.
 
 ### Run
 
-- `npm run start:dev` (this will use `cloudworker` to run a server on `localhost:3000` mimicking the API Worker)
+- `npm run start:dev` (this will use `wrangler dev` to locally start the Cloudflare Worker for testing)
 
 or
 
@@ -61,10 +55,6 @@ or
 or
 
 - `npm run publish:staging` (push to `placeholders-staging` workers.dev)
-
-or
-
-- `npm run publish:preview` (push to Cloudflare Workers preview builder)
 
 ## Production
 
