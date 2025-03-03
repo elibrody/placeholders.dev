@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
-import { type Options, simpleSvgPlaceholder } from './simple-svg-placeholder';
+import { type Options, simpleSvgPlaceholder } from '../src/simple-svg-placeholder';
 
 describe('simpleSVGPlaceholder', () => {
 	const testOptions: Options[] = [
@@ -35,6 +35,22 @@ describe('simpleSVGPlaceholder', () => {
 			text: 'Hello World',
 			textColor: 'rgba(255,255,255,0.5)',
 			bgColor: 'rgba(0,0,0,0.5)',
+		},
+		{
+			dataUri: false,
+			width: 1920,
+			height: 1080,
+			text: 'Dark mode background',
+			darkBgColor: 'rgba(255,255,255,0.5)',
+			bgColor: 'rgba(0,0,0,0.5)',
+		},
+		{
+			dataUri: false,
+			width: 1920,
+			height: 1080,
+			text: 'Dark mode text',
+			darkTextColor: 'rgba(255,255,255,0.5)',
+			textColor: 'rgba(0,0,0,0.5)',
 		},
 		{
 			dataUri: false,

@@ -1,3 +1,5 @@
 export interface Env {
-	__STATIC_CONTENT: string;
+	ASSETS: Fetcher;
+
+	PLACEHOLDERS_ANALYTICS?: AnalyticsEngineDataset;
 }

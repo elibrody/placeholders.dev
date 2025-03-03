@@ -1,10 +1,15 @@
 name = "placeholders-dev"
 workers_dev = true
 compatibility_date = "2023-12-09"
+compatibility_flags = ["nodejs_compat"]
 main = "./src/index.ts"
 
-[site]
-bucket = "./public"
+[assets]
+directory = "./public"
+binding = "ASSETS"
+html_handling = "drop-trailing-slash"
+not_found_handling = "404-page"
+run_worker_first = true
 
 [env.staging]
 name = "placeholders-staging"
@@ -18,3 +23,11 @@ routes = [
 	{pattern = "images.placeholders.dev/*", zone_id = "51bfc6eeecc90565bd116ee3ebb5e3a8"}
 ]
 logpush = true
+
+
+analytics_engine_datasets = [
+	{ binding = "PLACEHOLDERS_ANALYTICS" }
+]
+
+[env.production.observability]
+enabled = true

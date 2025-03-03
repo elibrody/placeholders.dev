@@ -12,6 +12,8 @@ export type Options = {
 	lineHeight?: number;
 	bgColor?: string;
 	textColor?: string;
+	darkBgColor?: string;
+	darkTextColor?: string;
 	dataUri?: boolean;
 	charset?: string;
 	textWrap?: boolean;
@@ -30,12 +32,27 @@ export function simpleSvgPlaceholder({
 	dy = fontSize * 0.35,
 	bgColor = '#ddd',
 	textColor = 'rgba(0,0,0,0.5)',
+	darkBgColor,
+	darkTextColor,
 	dataUri = true,
 	charset = 'utf8',
 	textWrap = false,
 	padding = '0.5em',
 }: Options = {}) {
 	let content = '';
+
+	let style = '';
+
+	if (darkBgColor || darkTextColor) {
+		style = `<style>
+      @media (prefers-color-scheme: dark) {
+        ${darkBgColor ? `rect { fill: ${darkBgColor}; }` : ''}
+        ${darkTextColor && !textWrap ? `text { fill: ${darkTextColor}; }` : ''}
+        ${darkTextColor && textWrap ? `div { color: ${darkTextColor} !important; }` : ''}
+      }
+      </style>`;
+	}
+
 	if (textWrap) {
 		content = `<foreignObject width="${width}" height="${height}">
 		<div xmlns="http://www.w3.org/1999/xhtml" style="
@@ -59,20 +76,21 @@ export function simpleSvgPlaceholder({
 	}
 
 	const str = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+	${style}
 	<rect fill="${bgColor}" width="${width}" height="${height}"/>
 	${content}
 	</svg>`;
 
 	// Thanks to: filamentgroup/directory-encoder
 	const cleaned = str
-		.replace(/[\t\n\r]/gim, '') // Strip newlines and tabs
-		.replace(/\s\s+/g, ' ') // Condense multiple spaces
-		.replace(/'/gim, '\\i'); // Normalize quotes
+		.replaceAll(/[\t\n\r]/gim, '') // Strip newlines and tabs
+		.replaceAll(/\s\s+/g, ' ') // Condense multiple spaces
+		.replaceAll(/'/gim, '\\i'); // Normalize quotes
 
 	if (dataUri) {
 		const encoded = encodeURIComponent(cleaned)
-			.replace(/\(/g, '%28') // Encode brackets
-			.replace(/\)/g, '%29');
+			.replaceAll('(', '%28') // Encode brackets
+			.replaceAll(')', '%29');
 
 		return `data:image/svg+xml;charset=${charset},${encoded}`;
 	}
